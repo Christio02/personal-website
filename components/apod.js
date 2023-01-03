@@ -5,14 +5,13 @@ const ApodPage = () => { // creates a function called ApodPage
 
     useEffect(() => { // useEffect is a hook that runs when the page is loaded}
         async function getApod() {
-            const response = await fetch("/api/nasa.js");  // fetches the data from the api
+            const response = await fetch("../pages/api/nasa");  // fetches the data from the api
             const data = await response.json(); // converts the data to json
             setApod(data); // sets the data to the apod variable
         }
-
+    
         getApod();
     }, []);
-
     return (
         <div>
             {apod? (
