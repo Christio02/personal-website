@@ -2,6 +2,7 @@ import Head from 'next/head'
 import Layout, { siteTitle } from "../components/layout";
 import utilStyles from "../styles/utils.module.css";
 import { getSortedPostsData } from "../lib/posts";
+import ApodPage from "../components/apod";
 
 export async function getStaticProps() {
   const allPostsData = getSortedPostsData();
@@ -35,6 +36,16 @@ export default function Home ({ allPostsData }) {
             </li>
           ))}
         </ul>
+      </section>
+
+      <section className= {utilStyles.headingMd}>
+        <h3>Here is a NASA picture!</h3>
+        <p>Here is a picture from NASA's Astronomy Picture of the Day API</p>
+        <div>
+          <ApodPage />    
+        </div>
+        
+
       </section>
    </Layout>
   );
