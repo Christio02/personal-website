@@ -2,7 +2,9 @@ import Head from 'next/head'
 import Layout, { siteTitle } from "../components/layout";
 import utilStyles from "../styles/utils.module.css";
 import { getSortedPostsData } from "../lib/posts";
-import ApodPage from "../components/apod";
+import getApod from "../components/apod";
+
+
 
 export async function getStaticProps() {
   const allPostsData = getSortedPostsData();
@@ -13,7 +15,7 @@ export async function getStaticProps() {
   };
 }
 
-export default function Home ({ allPostsData }) {
+export default function Home ({apod, allPostsData }) {
   return (
    <Layout home>
       <Head>
@@ -38,15 +40,20 @@ export default function Home ({ allPostsData }) {
         </ul>
       </section>
 
-      <section className= {utilStyles.headingMd}>
-        <h3>Here is a NASA picture!</h3>
-        <p>Here is a picture from NASA's Astronomy Picture of the Day API</p>
-        <div>
-          <ApodPage />    
-        </div>
-        
+      {/* <section className= {`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
+        <h1>NASA Astronomy Picture of the Day</h1>
+        <img src={apod.url} alt={apod.title} />
+        <p>{apod.explanation}</p>
+        {apod.copyright && <p>Copyright: {apod.copyright}</p>}
+      </section> */}
 
-      </section>
    </Layout>
   );
 }
+
+Home.getInitalProps = async () => {
+  const date = new Date().toISOString().substring(0, 10); // YYYY-MM-DD
+  const apod = await getApod(date);
+
+  return { apod };
+};

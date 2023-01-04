@@ -1,36 +1,21 @@
-import { useState, useEffect} from "react"; // imports useState and useEffect from react
+import fetch from "isomorphic-unfetch";
 
-const ApodPage = () => { // creates a function called ApodPage
-    const [apod, setApod] = useState(null);
+const apiKey = "iY5KEyYHw0uWTWSXIiVJynr95pdpR1zl51OuzYUa";
+const apiEndpoint = "https://api.nasa.gov/planetary/apod";
 
-    useEffect(() => { // useEffect is a hook that runs when the page is loaded}
-        async function getApod() {
-            const response = await fetch("../pages/api/nasa");  // fetches the data from the api
-            const data = await response.json(); // converts the data to json
-            setApod(data); // sets the data to the apod variable
-        }
-    
-        getApod();
-    }, []);
-    return (
-        <div>
-            {apod? (
-                <>
-                <h1>{apod.title}</h1>
-                <Image src = {apod.url} alt = {apod.title} />
-                <p>{apod.explanation}</p>
-                </>
-            ) : (
-                <p>Loading...</p>
-            )}
-        </div>
-    );
+async function getApod() {
+    try {
+      const res = await fetch(`${apiEndpoint}?api_key=${apiKey}`)
+      const data = await res.json()
+      console.log(data)
+      return data
+    } catch (error) {
+      console.error(error)
+    }
+  }
+getApod();
 
-};
-
-export default ApodPage;
-
-    
+export default getApod;
 
 
     
